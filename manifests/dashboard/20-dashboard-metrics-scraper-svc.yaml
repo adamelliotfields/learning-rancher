@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dashboard-metrics-scraper
+  namespace: kube-system
+  labels:
+    app: dashboard-metrics-scraper
+spec:
+  selector:
+    app: dashboard-metrics-scraper
+  ports:
+  - name: http
+    port: 8000

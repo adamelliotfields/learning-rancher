@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  namespace: kube-system
+  labels:
+    app: dashboard
+spec:
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      serviceAccountName: dashboard
+      containers:
+      - name: dashboard
+        image: kubernetesui/dashboard:v2.0.0-beta6
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests: {}
+          limits: {}
+        args:
+        - --enable-insecure-login
+        - --enable-skip-login
+        livenessProbe:
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 9090
+        ports:
+        - name: http
+          containerPort: 9090
+        volumeMounts:
+        - name: kubernetes-dashboard-certs
+          mountPath: /certs
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: kubernetes-dashboard-certs
+        secret:
+          secretName: kubernetes-dashboard-certs
+      - name: tmp
+        emptyDir: {}

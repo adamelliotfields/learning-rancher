@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longhorn-default-setting
+  namespace: longhorn-system
+data:
+  default-setting.yaml: |-
+    backup-target:
+    backup-target-credential-secret:
+    create-default-disk-labeled-nodes: false
+    default-data-path: /var/lib/rancher/longhorn
+    replica-soft-anti-affinity: true
+    storage-over-provisioning-percentage: 500
+    storage-minimal-available-percentage: 10
+    upgrade-checker: true
+    default-replica-count: 1
+    guaranteed-engine-cpu: 0
+    default-longhorn-static-storage-class: longhorn-static
+    backupstore-poll-interval: 300
+    taint-toleration:

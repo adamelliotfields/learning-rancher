@@ -1,0 +1,29 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: longhorn-backend
+  namespace: longhorn-system
+  labels:
+    app: longhorn-manager
+spec:
+  sessionAffinity: ClientIP
+  selector:
+    app: longhorn-manager
+  ports:
+  - name: manager
+    port: 9500
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: longhorn-frontend
+  namespace: longhorn-system
+  labels:
+    app: longhorn-ui
+spec:
+  selector:
+    app: longhorn-ui
+  ports:
+  - name: ui
+    port: 8000

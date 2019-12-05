@@ -1,0 +1,131 @@
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: engines.longhorn.io
+  labels:
+    longhorn-manager: Engine
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: Engine
+    listKind: EngineList
+    singular: engine
+    plural: engines
+    shortNames: ["lhe"]
+  subresources:
+    status: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: replicas.longhorn.io
+  labels:
+    longhorn-manager: Replica
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: Replica
+    listKind: ReplicaList
+    singular: replica
+    plural: replicas
+    shortNames: ["lhr"]
+  subresources:
+    status: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: settings.longhorn.io
+  labels:
+    longhorn-manager: Setting
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: Setting
+    listKind: SettingList
+    singular: setting
+    plural: settings
+    shortNames: ["lhs"]
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: volumes.longhorn.io
+  labels:
+    longhorn-manager: Volume
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: Volume
+    listKind: VolumeList
+    singular: volume
+    plural: volumes
+    shortNames: ["lhv"]
+  subresources:
+    status: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: engineimages.longhorn.io
+  labels:
+    longhorn-manager: EngineImage
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: EngineImage
+    listKind: EngineImageList
+    singular: engineimage
+    plural: engineimages
+    shortNames: ["lhei"]
+  subresources:
+    status: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: nodes.longhorn.io
+  labels:
+    longhorn-manager: Node
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: Node
+    listKind: NodeList
+    singular: node
+    plural: nodes
+    shortNames: ["lhn"]
+  subresources:
+    status: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: instancemanagers.longhorn.io
+  labels:
+    longhorn-manager: InstanceManager
+spec:
+  scope: Namespaced
+  group: longhorn.io
+  version: v1beta1
+  names:
+    kind: InstanceManager
+    listKind: InstanceManagerList
+    singular: instancemanager
+    plural: instancemanagers
+    shortNames: ["lhim"]
+  subresources:
+    status: {}

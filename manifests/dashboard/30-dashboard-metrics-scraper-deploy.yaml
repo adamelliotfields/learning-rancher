@@ -1,0 +1,47 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dashboard-metrics-scraper
+  namespace: kube-system
+  labels:
+    app: dashboard-metrics-scraper
+spec:
+  selector:
+    matchLabels:
+      app: dashboard-metrics-scraper
+  template:
+    metadata:
+      labels:
+        app: dashboard-metrics-scraper
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'runtime/default'
+    spec:
+      serviceAccountName: dashboard
+      containers:
+      - name: dashboard-metrics-scraper
+        image: kubernetesui/metrics-scraper:v1.0.1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests: {}
+          limits: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsUser: 1001
+          runAsGroup: 2001
+        livenessProbe:
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 8000
+        ports:
+        - name: http
+          containerPort: 8000
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
