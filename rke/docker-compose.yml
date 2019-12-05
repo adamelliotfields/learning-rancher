@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+  etcd:
+    image: quay.io/coreos/etcd:v3.4.3
+    container_name: etcd
+    hostname: etcd
+    restart: always
+    network_mode: host
+    command:
+    - etcd
+    - --data-dir=/data
+    - --name=rancher-master
+    - --initial-cluster=rancher-master=https://192.168.0.2:2380
+    - --initial-cluster-state=new
+    - --initial-advertise-peer-urls=https://192.168.0.2:2380
+    - --listen-peer-urls=https://0.0.0.0:2380
+    - --advertise-client-urls=https://192.168.0.2:2379
+    - --listen-client-urls=https://0.0.0.0:2379
+    - --trusted-ca-file=/etc/ssl/certs/ca.crt
+    - --cert-file=/etc/ssl/certs/etcd.crt
+    - --key-file=/etc/ssl/certs/etcd.key
+    - --peer-trusted-ca-file=/etc/ssl/certs/ca.crt
+    - --peer-cert-file=/etc/ssl/certs/etcd.crt
+    - --peer-key-file=/etc/ssl/certs/etcd.key
+    - --logger=zap
+    - --client-cert-auth
+    - --peer-client-cert-auth
+    volumes:
+    - ~/.step/certs/root_ca.crt:/etc/ssl/certs/ca.crt:ro
+    - ~/.step/certs/rancher-master.crt:/etc/ssl/certs/etcd.crt:ro
+    - ~/.step/certs/rancher-master.key:/etc/ssl/certs/etcd.key:ro
+    - etcd:/data
+
+volumes:
+  etcd:
+    name: etcd

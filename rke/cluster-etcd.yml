@@ -1,0 +1,42 @@
+cluster_name: rancher
+
+kubernetes_version: v1.16.2-rancher1-1
+
+ignore_docker_version: true
+
+nodes:
+  # If deploying to a public cloud, set address to the external IP.
+- address: '192.168.0.2'
+  internal_address: '192.168.0.2'
+  ssh_key_path: /vagrant/.vagrant/machines/rancher-master/virtualbox/private_key
+  hostname_override: rancher-master
+  user: vagrant
+  role: ["controlplane", "worker"]
+- address: '192.168.0.3'
+  internal_address: '192.168.0.3'
+  ssh_key_path: /vagrant/.vagrant/machines/rancher-worker/virtualbox/private_key
+  hostname_override: rancher-worker
+  user: vagrant
+  role: ["worker"]
+
+authentication:
+  # If deploying to a public cloud, add the external IP of the master.
+  sans: ["localhost", "rancher-master", "127.0.0.1", "192.168.0.2"]
+
+network:
+  plugin: flannel
+  options:
+    flannel_iface: eth1
+    # canal_iface: eth1
+
+ingress:
+  provider: none
+
+services:
+  etcd:
+    path: /
+    external_urls:
+    - https://192.168.0.2:2379
+    ca_cert: ''
+    cert: ''
+    key: ''
