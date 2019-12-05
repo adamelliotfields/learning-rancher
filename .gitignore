@@ -1,0 +1,8 @@
+.idea/
+.vagrant/
+.vscode/
+.DS_Store
+rke/cluster.rkestate
+rke/cluster-etcd.rkestate
+rke/kube_config_cluster.yml
+rke/kube_config_cluster-etcd.yml
