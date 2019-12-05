@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  rancher:
+    image: rancher/rancher:v2.3.2
+    container_name: rancher
+    hostname: rancher
+    restart: always
+    init: true
+    entrypoint:
+    - rancher
+    environment:
+    - CATTLE_SYSTEM_CATALOG=bundled
+    networks:
+    - rancher
+    ports:
+    - 0.0.0.0:8080:8080
+    - 0.0.0.0:8443:8443
+    volumes:
+    - 'rancher_data:/var/lib/rancher'
+    - 'rancher_log:/var/log/auditlog'
+    - '~/.step/certs/rancher-master.crt:/etc/rancher/ssl/cert.pem:ro'
+    - '~/.step/certs/rancher-master.key:/etc/rancher/ssl/key.pem:ro'
+    - '~/.step/certs/root_ca.crt:/etc/rancher/ssl/cacerts.pem:ro'
+
+volumes:
+  rancher_data:
+    name: rancher_data
+  rancher_log:
+    name: rancher_log
+
+networks:
+  rancher:
+    name: rancher
