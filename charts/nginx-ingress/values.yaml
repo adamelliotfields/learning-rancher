@@ -1,0 +1,5 @@
+controller:
+  tolerations:
+   - operator: Exists
+  nodeSelector:
+    kubernetes.io/hostname: rancher-master
