@@ -1,0 +1,60 @@
+config_version: '2'
+
+provider: 'virtualbox'
+
+box: bento/debian-10.1
+
+box_check_update: false
+
+files:
+- source: 'files/rules.v4'
+  # Adding the ~ suffix so we have the original as a backup.
+  destination: '/etc/iptables/rules.v4~'
+- source: 'files/rules.v6'
+  destination: '/etc/iptables/rules.v6~'
+
+provisioners:
+- path: 'vagrant/provision.sh'
+
+synced_folders:
+- hostpath: '~/.step'
+  guestpath: '/home/vagrant/.step'
+  # Keyword arguments must be prefixed with a colon and not quoted.
+  options:
+    :create: true
+
+# The first vm will be the primary guest.
+vms:
+- name: rancher-master
+  cpus: 2
+  memory: 2048
+  linked_clone: true
+  networks:
+  - private_network:
+      :ip: '192.168.0.2'
+  - forwarded_port:
+      :host: 80
+      :guest: 80
+  - forwarded_port:
+      :host: 443
+      :guest: 443
+  - forwarded_port:
+      :host: 6443
+      :guest: 6443
+  - forwarded_port:
+      :host: 8080
+      :guest: 8080
+  - forwarded_port:
+      :host: 8443
+      :guest: 8443
+  customizations:
+  - { "--natdnshostresolver1": "on" }
+- name: rancher-worker
+  cpus: 2
+  memory: 2048
+  linked_clone: true
+  networks:
+  - private_network:
+      :ip: '192.168.0.3'
+  customizations:
+  - { "--natdnshostresolver1": "on" }
